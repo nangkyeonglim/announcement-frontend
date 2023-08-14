@@ -1,44 +1,18 @@
+import { useQuery } from '@tanstack/react-query';
 import { useState } from 'react';
 import styled from 'styled-components';
+import { getNotice } from '../apis/notices';
+import { GetNoticesResponse } from '../@types/apis/notices';
 
 type Channel = '전체' | '5기 프론트엔드' | '5기 백엔드';
-
-type Announcement = {
-  title: string;
-  channel: Channel;
-  author: string;
-  date: string;
-};
 
 const NoticeListPage = () => {
   const [selectedChannel, setSelectedChannel] = useState<Channel>('전체');
 
-  const announcements: Announcement[] = [
-    {
-      title: '공지 1',
-      channel: '전체',
-      author: '제레미',
-      date: '2023-08-13',
-    },
-    {
-      title: '공지 2',
-      channel: '5기 프론트엔드',
-      author: '제레미',
-      date: '2023-08-15',
-    },
-    {
-      title: '공지 3',
-      channel: '5기 프론트엔드',
-      author: '파인',
-      date: '2023-08-12',
-    },
-    {
-      title: '공지 4',
-      channel: '5기 백엔드',
-      author: '도기',
-      date: '2023-08-12',
-    },
-  ];
+  const { data: noticeData } = useQuery<GetNoticesResponse[]>(
+    ['notices'],
+    getNotice
+  );
 
   return (
     <Container>
@@ -68,18 +42,18 @@ const NoticeListPage = () => {
           </tr>
         </thead>
         <tbody>
-          {announcements
-            .filter(
-              (announcement) =>
+          {noticeData
+            ?.filter(
+              (notice) =>
                 selectedChannel === '전체' ||
-                announcement.channel === selectedChannel
+                notice.channelName === selectedChannel
             )
-            .map((announcement, index) => (
+            .map((notice, index) => (
               <tr key={index}>
-                <td>{announcement.title}</td>
-                <td>{announcement.channel}</td>
-                <td>{announcement.author}</td>
-                <td>{announcement.date}</td>
+                <td>{notice.title}</td>
+                <td>{notice.channelName}</td>
+                <td>{notice.writer}</td>
+                <td>{notice.createdAt}</td>
               </tr>
             ))}
         </tbody>
