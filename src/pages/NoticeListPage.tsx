@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 import { useState } from 'react';
 import styled from 'styled-components';
-import { getNotice } from '../apis/notices';
+import { getNoticeList } from '../apis/notices';
 import { GetNoticesResponse } from '../@types/apis/notices';
 
 type Channel = '전체' | '5기 프론트엔드' | '5기 백엔드';
@@ -11,7 +11,7 @@ const NoticeListPage = () => {
 
   const { data: noticeData } = useQuery<GetNoticesResponse[]>(
     ['notices'],
-    getNotice
+    getNoticeList
   );
 
   return (

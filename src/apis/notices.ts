@@ -8,7 +8,7 @@ export const addNotice = async (newNotice: Notice) => {
   return response.data;
 };
 
-export const getNotice = async () => {
+export const getNoticeList = async () => {
   const response = await apiClient.get<GetNoticesResponse[]>('/notices');
 
   return response.data;

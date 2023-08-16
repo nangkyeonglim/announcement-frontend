@@ -1,6 +1,6 @@
 import { GetNoticesResponse } from '../../@types/apis/notices';
 
-export const noticeData: GetNoticesResponse[] = [
+export const noticeListData: GetNoticesResponse[] = [
   {
     id: 1,
     title: '신비한 사건',
